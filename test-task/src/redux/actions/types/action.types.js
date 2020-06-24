@@ -1,0 +1,2 @@
+export const SET_USER_DATA = 'SIGN_IN/SET_USER_DATA';
+export const REMOVE_USER_DATA = 'SIGN_IN/REMOVE_TOKEN';
