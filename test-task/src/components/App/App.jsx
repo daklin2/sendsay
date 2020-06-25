@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import AppWithRoutes from './AppWithRouter';
 import Authorization from './Authorization';
 
-const App = ({ token }) => {
-  const PageRoutes = token ? <AppWithRoutes /> : <Authorization />;
+const App = ({ userAuth }) => {
+  const PageRoutes = userAuth ? <AppWithRoutes /> : <Authorization />;
 
   return (
     <>
@@ -18,11 +18,11 @@ const App = ({ token }) => {
 };
 
 App.defaultProps = {
-  token: null,
+  userAuth: null,
 };
 
 App.propTypes = {
-  token: PropTypes.string,
+  userAuth: PropTypes.objectOf(PropTypes.object),
 };
 
 export default App;
