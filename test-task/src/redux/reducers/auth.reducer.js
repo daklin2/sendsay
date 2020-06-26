@@ -6,7 +6,8 @@ import {
   SET_USER_DATA,
   BUTTON_ACTIVITY_SWITCH,
   SET_ALERT_MESSAGE,
-  SET_BUTTON_STATE
+  SET_BUTTON_STATE,
+  REMOVE_USER_DATA,
 } from '../actions/types/action.types'
 
 const checkUserData = () => {
@@ -47,9 +48,7 @@ const authReducer = (state = initialState, {type, payload}) => {
 
       return {
         ...state,
-        userAuth: {
-
-        },
+        userAuth: checkUserData(),
       }
     case SET_BUTTON_STATE:
       return {
@@ -66,6 +65,12 @@ const authReducer = (state = initialState, {type, payload}) => {
           isDisable: !state.buttonState.isDisable,
           state: state.buttonState.state,
         }
+      }
+    case REMOVE_USER_DATA:
+      clearAllCookie();
+      return {
+        ...state,
+        userAuth: checkUserData(),
       }
     case SET_ALERT_MESSAGE:
       return {

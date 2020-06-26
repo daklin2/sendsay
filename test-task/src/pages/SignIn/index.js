@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 
-import Authorization from './Authorization';
-import { buttonActivitySwitch, setButtonState } from '../../redux/actions/creators/auth.creators';
+import SignInPage from './SignInPage';
 import signIn from '../../middlewares/users/sign-in';
+import { buttonActivitySwitch, setButtonState } from '../../redux/actions/creators/button.creators';
 import {ACTIVE, LOAD} from '../../constats/buttonState'
 
-const mapStateToProps = ({ auth: { buttonState, message }}) => ({
+const mapStateToProps = ({ auth: { message }, button: { buttonState }}) => ({
   buttonState,
   message,
   isLoad: LOAD,
@@ -19,4 +19,4 @@ const mapToDispatch = (dispatch) => ({
 
 });
 
-export default connect(mapStateToProps, mapToDispatch)(Authorization);
+export default connect(mapStateToProps, mapToDispatch)(SignInPage);
