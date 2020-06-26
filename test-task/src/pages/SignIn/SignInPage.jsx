@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Button from '../../components/Button';
-import style from './Authorization.module.scss';
+import style from './SignInPage.module.scss';
 
-const Authorization = ({sign, buttonState, message, switchButton, setButtonState, loadButtonState, activeButtonState}) => {
+const SignInPage = ({sign, buttonState, message, switchButton, setButtonState, loadButtonState, activeButtonState}) => {
   const [login, setLogin] = useState('');
   const [subLogin, setSubLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +37,11 @@ const Authorization = ({sign, buttonState, message, switchButton, setButtonState
 
   const handlerSubmit = (event) => {
     event.preventDefault();
+
+    //не эфективно, заменить
+    event.target.closest('form').querySelectorAll('input')
+      .forEach((el) => el.removeAttribute('readonly'));
+
     return sign(login, subLogin, password);
   };
 
@@ -48,8 +53,6 @@ const Authorization = ({sign, buttonState, message, switchButton, setButtonState
       </div>
     )
   }
-
-  const buttonActiveClass = `Authorization__form-button${buttonState.state}`;
 
   return (
     <div className={style.Authorization}>
@@ -68,6 +71,8 @@ const Authorization = ({sign, buttonState, message, switchButton, setButtonState
             placeholder="Логин"
             name="email"
             autoComplete="off"
+            readOnly="on"
+            onFocus={(ev) => ev.target.removeAttribute('readonly')}
             onChange={handlerOnTypeSetLogin}
           />
         </div>
@@ -85,6 +90,8 @@ const Authorization = ({sign, buttonState, message, switchButton, setButtonState
             placeholder="Сублогин (опционально)"
             autoComplete="off"
             name="SubLogin"
+            readOnly="on"
+            onFocus={(ev) => ev.target.removeAttribute('readonly')}
             onChange={handlerOnTypeSetSubLogin}
           />
         </div>
@@ -99,27 +106,28 @@ const Authorization = ({sign, buttonState, message, switchButton, setButtonState
             type="password"
             id="password"
             autoComplete="off"
+            readOnly="on"
+            onFocus={(ev) => ev.target.removeAttribute('readonly')}
             onChange={handlerOnTypeSetPassword}
           />
         </div>
         <Button
-          classBtn={`${style['Authorization__form-button']} ${style[buttonActiveClass]}`}
           text="Войти"
           isDisable={buttonState.isDisable}
-          isLoad={buttonState.state}
+          btnState={buttonState.state}
         />
       </form>
     </div>
   );
 };
 
-Authorization.defaultProps = {
+SignInPage.defaultProps = {
   message: null,
   loadButtonState: null,
   activeButtonState: null,
 }
 
-Authorization.propTypes = {
+SignInPage.propTypes = {
   sign: PropTypes.func.isRequired,
   buttonState: PropTypes.oneOfType([PropTypes.object]).isRequired,
   message: PropTypes.string,
@@ -129,4 +137,4 @@ Authorization.propTypes = {
   activeButtonState: PropTypes.string,
 
 }
-export default Authorization;
+export default SignInPage;

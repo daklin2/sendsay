@@ -22,7 +22,7 @@ App.defaultProps = {
 };
 
 App.propTypes = {
-  userAuth: PropTypes.objectOf(PropTypes.object),
+  userAuth: PropTypes.oneOfType([PropTypes.object]),
 };
 
 export default App;

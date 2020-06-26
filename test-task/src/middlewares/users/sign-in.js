@@ -1,6 +1,7 @@
 import Sendsay from 'sendsay-api';
 
-import { setButtonState, setAlertMessage, setUserData, buttonActivitySwitch } from '../../redux/actions/creators/auth.creators';
+import { buttonActivitySwitch, setButtonState } from '../../redux/actions/creators/button.creators';
+import { setAlertMessage, setUserData } from '../../redux/actions/creators/auth.creators';
 import { ACTIVE, DISABLE, LOAD } from '../../constats/buttonState';
 
 const signIn = (login, subLogin = '', password, dispatch) => {

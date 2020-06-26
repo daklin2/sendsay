@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import style from './Button.module.scss';
 import { LOAD } from '../../constats/buttonState';
 
-const Button = ({ text, isDisable, classBtn, isLoad }) => {
+const Button = ({ text, isDisable, btnState }) => {
+  console.log(btnState)
   const creatLoader = () => {
     const elements = [];
     for (let i = 0; i <= 12; i += 1) {
@@ -13,17 +14,17 @@ const Button = ({ text, isDisable, classBtn, isLoad }) => {
     return elements;
   }
 
-  const btnContent = isLoad !== LOAD
+  const btnContent = btnState !== LOAD
     ? text
     : (
-      <div className={style['Button--load']}>
+      <div className={style[`Button-loader`]}>
         {creatLoader()}
       </div>
     )
 
   return (
     <button
-      className={`${classBtn} ${style.Button}`}
+      className={`${style.Button} ${style[`Button${btnState}`]}`}
       type='submit'
       disabled={isDisable}
     >

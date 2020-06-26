@@ -25,14 +25,3 @@ export const setAlertMessage = (message) => ({
     message,
   }
 })
-
-export const setButtonState = (state) => ({
-  type: SET_BUTTON_STATE,
-  payload: {
-    state,
-  }
-});
-
-export const buttonActivitySwitch = () => ({
-  type: BUTTON_ACTIVITY_SWITCH,
-});
