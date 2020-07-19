@@ -21,10 +21,7 @@ const checkUserData = () => {
 }
 
 const initialState = {
-  buttonState: {
-    isDisable: false,
-    state: '--active',
-  },
+
 }
 
 const consoleReducer = (state = initialState, {type, payload}) => {

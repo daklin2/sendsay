@@ -5,3 +5,7 @@ export const SET_ALERT_MESSAGE = 'SIGN_IN/SET_MESSAGE';
 //button
 export const SET_BUTTON_STATE = 'BUTTON/SET_BUTTON_STATE';
 export const BUTTON_ACTIVITY_SWITCH = 'BUTTON/SWITCH_BUTTON';
+
+//console
+export const WRONG_JSON = 'CONSOLE/WRONG_JSON';
+export const WRONG_QUERY = 'CONSOLE/WRONG_QUERY';

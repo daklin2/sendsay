@@ -5,6 +5,7 @@ import { buttonActivitySwitch, setButtonState } from '../../redux/actions/creato
 import {ACTIVE, LOAD} from '../../constats/buttonState';
 import { removeUserData } from '../../redux/actions/creators/auth.creators';
 import { LOGIN, SUB_LOGIN } from '../../constats/cookiesNames';
+import fetchQuery from '../../middlewares/users/fetch-query';
 
 const mapStateToProps = ({ auth: { getUserData }, button: { buttonState }}) => ({
   userLogin: getUserData(LOGIN),
@@ -16,6 +17,7 @@ const mapStateToProps = ({ auth: { getUserData }, button: { buttonState }}) => (
 
 const mapToDispatch = (dispatch) => ({
   logout: () => dispatch(removeUserData()),
+  fetchQuery: () => fetchQuery(),
   switchButton: () => dispatch(buttonActivitySwitch()),
   setButtonState: (state) => dispatch(setButtonState(state)),
 
