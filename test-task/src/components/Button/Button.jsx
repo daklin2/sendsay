@@ -42,7 +42,7 @@ Button.propTypes = {
   isDisable: PropTypes.bool,
   onClick: PropTypes.func,
   buttonLoadClass: PropTypes.string.isRequired,
-  buttonState: PropTypes.bool.isRequired,
+  buttonState: PropTypes.string.isRequired,
 };
 
 export default Button;
