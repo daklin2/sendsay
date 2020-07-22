@@ -2,29 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import style from './Button.module.scss';
-import { LOAD } from '../../constats/buttonState';
 
-const Button = ({ text, isDisable, btnState, onClick }) => {
+const Button = ({ text, isDisable, buttonState, onClick, buttonLoadClass }) => {
   const creatLoader = () => {
     const elements = [];
     for (let i = 0; i <= 12; i += 1) {
-      elements.push(<div key={i}/>);
+      elements.push(<div key={i} />);
     }
     return elements;
-  }
+  };
 
-  const btnContent = btnState !== LOAD
-    ? text
-    : (
-      <div className={style[`Button-loader`]}>
-        {creatLoader()}
-      </div>
-    )
+  const btnContent =
+    buttonState !== buttonLoadClass ? (
+      text
+    ) : (
+      <div className={style[`Button-loader`]}>{creatLoader()}</div>
+    );
 
   return (
     <button
-      className={`${style.Button} ${style[`Button${btnState}`]}`}
-      type='submit'
+      className={`${style.Button} ${style[`Button${buttonState}`]}`}
+      type="submit"
       disabled={isDisable}
       onClick={onClick}
     >
@@ -34,18 +32,17 @@ const Button = ({ text, isDisable, btnState, onClick }) => {
 };
 
 Button.defaultProps = {
-  classBtn: '',
+  text: 'Кнопка',
   isDisable: false,
-  isLoad: null,
   onClick: null,
 };
 
 Button.propTypes = {
-  isLoad: PropTypes.string,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
   isDisable: PropTypes.bool,
-  onClick:PropTypes.func,
-  classBtn: PropTypes.string,
+  onClick: PropTypes.func,
+  buttonLoadClass: PropTypes.string.isRequired,
+  buttonState: PropTypes.bool.isRequired,
 };
 
 export default Button;
