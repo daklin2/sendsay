@@ -1,37 +1,68 @@
-import Sendsay from 'sendsay-api';
-
-import { LOGIN, PASSWORD, SUB_LOGIN  } from '../../constats/cookiesNames';
-import { clearAllCookie, getCookie, setCookie } from '../../helpers/cookies-utils';
+import { QUERIES } from '../../constats/localStorageNames';
+import { getStorage, setStorage } from '../../helpers/localStorage-utils';
 import {
-  SET_USER_DATA,
-  BUTTON_ACTIVITY_SWITCH,
-  SET_ALERT_MESSAGE,
-  SET_BUTTON_STATE
-} from '../actions/types/action.types'
+  CLEAR_QUERIES_HISTORY,
+  DELETE_QUERIES_HISTORY,
+  SET_QUERIES_HISTORY,
+} from '../actions/types/action.types';
 
-const checkUserData = () => {
-  const login = getCookie(LOGIN)
-  const subLogin = getCookie(SUB_LOGIN)
-  const password = getCookie(PASSWORD)
+const getHistoryQueries = () => {
+  const queries = getStorage(QUERIES) && getStorage(QUERIES).split(',');
 
-  if (!(login && password)) {
-    clearAllCookie()
-    return null
+  if (!queries) {
+    return [];
   }
-}
+  return [...JSON.parse(queries)];
+};
+
+const checkQueryForUnique = (allQueries, currentQuery) => {
+  return allQueries.findIndex(
+    (el) => JSON.stringify(el.query) === JSON.stringify(currentQuery.query)
+  );
+};
 
 const initialState = {
+  historyQueries: getHistoryQueries(),
+};
 
-}
+const consoleReducer = (state = initialState, { type, payload }) => {
+  const queries = [...state.historyQueries];
+  const indexOfQuery = () => checkQueryForUnique(state.historyQueries, payload);
 
-const consoleReducer = (state = initialState, {type, payload}) => {
   switch (type) {
+    case SET_QUERIES_HISTORY:
+      if (indexOfQuery() === -1) {
+        queries.unshift(payload);
+      } else {
+        queries.unshift(...queries.splice(indexOfQuery(), 1));
+      }
 
+      setStorage(QUERIES, queries);
+      return {
+        ...state,
+        historyQueries: queries,
+      };
+    case DELETE_QUERIES_HISTORY:
+      queries.splice(payload, 1);
+
+      setStorage(QUERIES, queries);
+      return {
+        ...state,
+        historyQueries: queries,
+      };
+    case CLEAR_QUERIES_HISTORY:
+      queries.length = 0;
+
+      setStorage(QUERIES, queries);
+      return {
+        ...state,
+        historyQueries: queries,
+      };
     default:
       return {
         ...state,
-      }
+      };
   }
-}
+};
 
 export default consoleReducer;

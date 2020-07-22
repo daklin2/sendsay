@@ -1,14 +1,3 @@
-const fetchQuery = () => {
-  const promise = new Promise((resolve) => {
-    resolve();
-  });
-
-  return (() =>
-    promise
-      .then(() => {
-
-      })
-  )()
-}
+const fetchQuery = (user, request) => new Promise((resolve) => resolve(user.request(request)));
 
 export default fetchQuery;

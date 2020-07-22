@@ -1,8 +1,8 @@
 import Sendsay from 'sendsay-api';
 
-import { buttonActivitySwitch, setButtonState } from '../../redux/actions/creators/button.creators';
+import { setButtonState, loadButtonState } from '../../redux/actions/creators/button.creators';
 import { setAlertMessage, setUserData } from '../../redux/actions/creators/auth.creators';
-import { ACTIVE, DISABLE, LOAD } from '../../constats/buttonState';
+import { DISABLE } from '../../constats/buttonState';
 
 const signIn = (login, subLogin = '', password, dispatch) => {
   const promise = new Promise((resolve) => {
@@ -11,30 +11,28 @@ const signIn = (login, subLogin = '', password, dispatch) => {
 
   return (() =>
     promise
-    .then(() => {
-      dispatch(buttonActivitySwitch());
-      dispatch(setButtonState(LOAD));
-      dispatch(setAlertMessage(''));
+      .then(() => {
+        dispatch(loadButtonState(true));
+        dispatch(setAlertMessage(''));
 
-      const sendsay = new Sendsay({
-        auth: {
-          login,
-          subLogin,
-          password,
-        }
+        const sendsay = new Sendsay({
+          auth: {
+            login,
+            subLogin,
+            password,
+          },
+        });
+
+        return sendsay.request({ action: 'sys.settings.get', list: ['about.id'] });
       })
-
-      return sendsay.request({action: 'sys.settings.get', list: ['about.id']})
-    })
-    .then(() => {
-      dispatch(setUserData(login, subLogin, password));
-      dispatch(setButtonState(ACTIVE));
-      dispatch(buttonActivitySwitch());
-    })
-    .catch(({id, explain}) => {
-      dispatch(setAlertMessage(`{id: "${id}", explain: "${explain}"}`));
-      dispatch(setButtonState(DISABLE));
-    }))()
-}
+      .then(() => {
+        dispatch(setUserData(login, subLogin, password));
+        dispatch(loadButtonState(false));
+      })
+      .catch(({ id, explain }) => {
+        dispatch(setAlertMessage(`{id: "${id}", explain: "${explain}"}`));
+        dispatch(setButtonState(DISABLE));
+      }))();
+};
 
 export default signIn;

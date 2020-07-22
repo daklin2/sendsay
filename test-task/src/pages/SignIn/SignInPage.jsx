@@ -4,7 +4,15 @@ import PropTypes from 'prop-types';
 import Button from '../../components/Button';
 import style from './SignInPage.module.scss';
 
-const SignInPage = ({sign, buttonState, message, switchButton, setButtonState, loadButtonState, activeButtonState}) => {
+const SignInPage = ({
+  sign,
+  buttonState,
+  message,
+  switchButton,
+  setButtonState,
+  loadButtonState,
+  activeButtonState,
+}) => {
   const [login, setLogin] = useState('');
   const [subLogin, setSubLogin] = useState('');
   const [password, setPassword] = useState('');
@@ -12,53 +20,61 @@ const SignInPage = ({sign, buttonState, message, switchButton, setButtonState, l
   const enableSubmit = () => {
     if (buttonState.state !== loadButtonState && buttonState.isDisable) {
       switchButton();
-      setButtonState(activeButtonState)
+      setButtonState(activeButtonState);
     }
-  }
+  };
 
-  const handlerOnTypeSetLogin = ({target: {value}}) => {
+  const handlerOnTypeSetLogin = ({ target: { value } }) => {
     enableSubmit();
 
     const regExpPassword = /[а-яё ]/iu.test(value);
-    !regExpPassword && setLogin(value);
-  }
+    if (!regExpPassword) {
+      setLogin(value);
+    }
+  };
 
-  const handlerOnTypeSetSubLogin = ({target: {value}}) => {
+  const handlerOnTypeSetSubLogin = ({ target: { value } }) => {
     const regExpPassword = /[а-яё ]/iu.test(value);
-    !regExpPassword && setSubLogin(value);
-  }
+    if (!regExpPassword) {
+      setSubLogin(value);
+    }
+  };
 
-  const handlerOnTypeSetPassword = ({target: {value}}) => {
+  const handlerOnTypeSetPassword = ({ target: { value } }) => {
     enableSubmit();
 
     const regExpPassword = /[а-яё ]/iu.test(value);
-    !regExpPassword && setPassword(value);
-  }
+    if (!regExpPassword) {
+      setPassword(value);
+    }
+  };
 
   const handlerSubmit = (event) => {
     event.preventDefault();
 
-    //не эфективно, заменить
-    event.target.closest('form').querySelectorAll('input')
+    // не эфективно, заменить
+    event.target
+      .closest('form')
+      .querySelectorAll('input')
       .forEach((el) => el.removeAttribute('readonly'));
 
     return sign(login, subLogin, password);
   };
 
   const errorElement = () => {
-    return message && (
-      <div className={style.Authorization__error}>
-        <span className={style['Authorization__error-title']}>Вход не вышел</span>
-        <span className={style['Authorization__error-type']}>{message}</span>
-      </div>
-    )
-  }
+    return (
+      message && (
+        <div className={style.Authorization__error}>
+          <span className={style['Authorization__error-title']}>Вход не вышел</span>
+          <span className={style['Authorization__error-type']}>{message}</span>
+        </div>
+      )
+    );
+  };
 
   return (
     <div className={style.Authorization}>
-      <div className={style.Authorization__title}>
-        API-Консолька
-      </div>
+      <div className={style.Authorization__title}>API-Консолька</div>
       {errorElement()}
       <form onSubmit={handlerSubmit} className={style.Authorization__form}>
         <div className={style['Authorization__form-container']}>
@@ -79,9 +95,7 @@ const SignInPage = ({sign, buttonState, message, switchButton, setButtonState, l
         <div className={style['Authorization__form-container']}>
           <div className={style['Authorization__form-title']}>
             Сублогин
-            <span className={style['Authorization__form-note']}>
-              опционально
-            </span>
+            <span className={style['Authorization__form-note']}>опционально</span>
           </div>
           <input
             value={subLogin}
@@ -111,11 +125,7 @@ const SignInPage = ({sign, buttonState, message, switchButton, setButtonState, l
             onChange={handlerOnTypeSetPassword}
           />
         </div>
-        <Button
-          text="Войти"
-          isDisable={buttonState.isDisable}
-          btnState={buttonState.state}
-        />
+        <Button text="Войти" />
       </form>
     </div>
   );
@@ -125,7 +135,7 @@ SignInPage.defaultProps = {
   message: null,
   loadButtonState: null,
   activeButtonState: null,
-}
+};
 
 SignInPage.propTypes = {
   sign: PropTypes.func.isRequired,
@@ -135,6 +145,6 @@ SignInPage.propTypes = {
   setButtonState: PropTypes.func.isRequired,
   loadButtonState: PropTypes.string,
   activeButtonState: PropTypes.string,
+};
 
-}
 export default SignInPage;
