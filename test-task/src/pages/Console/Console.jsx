@@ -240,7 +240,7 @@ const Console = ({
             href="https://github.com/daklin2"
             className={style['Console__footer-github']}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             GitHub
           </a>
