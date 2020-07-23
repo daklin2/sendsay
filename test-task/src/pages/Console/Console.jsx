@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import Logo from '../../components/Logo';
 import Button from '../../components/Button';
 import HistoryQuery from '../../components/HistoryQuery';
 import style from './Console.module.scss';
-import Logo from '../../components/Logo';
 
 const Console = ({
   buttonLoad,
@@ -23,8 +23,11 @@ const Console = ({
   const [isFullscreen, setFullscreen] = useState(false);
   const [isJSONError, setJSONError] = useState(false);
   const [isResponseError, setResponseError] = useState(false);
+  const [isSplitBarCapture, setSplitBarCapture] = useState(false);
 
   const latestConsoleJSON = useRef(consoleJSON);
+  const splitBarElement = createRef();
+  const consoleAreaElement = createRef();
 
   const parseJson = () => {
     const parseUserJSON = JSON.parse(latestConsoleJSON.current.replace("'", '"'));
@@ -116,6 +119,20 @@ const Console = ({
     }
   };
 
+  const handlerMouseDownSplitBar = () => {
+    setSplitBarCapture(true);
+    console.log('ddd');
+  };
+  const handlerMouseMoveSplitBar = (event) => {
+    if (!isSplitBarCapture) return;
+    console.log('ddd');
+    consoleAreaElement.current.style.width = `${event.clientX}px`;
+  };
+  const handlerMouseUpSplitBar = () => {
+    setSplitBarCapture(false);
+    console.log('false');
+  };
+
   const handlerLogout = () => {
     clearQuery();
     logout();
@@ -129,24 +146,14 @@ const Console = ({
   };
 
   useEffect(() => {
-    const bar = document.querySelector(`.${style['Console__body-split']}`);
-    const left = document.querySelector(`.${style['Console__body-code']}`);
-    let mouseIsDown = false;
+    document.addEventListener('mousemove', handlerMouseMoveSplitBar);
+    document.addEventListener('mouseup', handlerMouseUpSplitBar);
 
-    bar.addEventListener('mousedown', () => {
-      mouseIsDown = true;
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (!mouseIsDown) return;
-
-      left.style.width = `${e.clientX}px`;
-    });
-
-    document.addEventListener('mouseup', () => {
-      mouseIsDown = false;
-    });
-  }, []);
+    return () => {
+      document.removeEventListener('mousemove', handlerMouseMoveSplitBar);
+      document.removeEventListener('mousemove', handlerMouseUpSplitBar);
+    };
+  }, [isSplitBarCapture, handlerMouseMoveSplitBar, handlerMouseUpSplitBar]);
 
   useEffect(() => {
     latestConsoleJSON.current = consoleJSON;
@@ -216,7 +223,7 @@ const Console = ({
       </div>
       <div className={style.Console__body}>
         <div className={`${style['Console__body-areas']}`}>
-          <div className={consoleCodeClasses}>
+          <div ref={consoleAreaElement} className={consoleCodeClasses}>
             <div className={style['Console__body-title']}>Запрос:</div>
             <textarea
               className={`${style['Console__body-textarea']}`}
@@ -224,7 +231,11 @@ const Console = ({
               value={consoleJSON}
             />
           </div>
-          <div className={style['Console__body-split']}>
+          <div
+            ref={splitBarElement}
+            className={style['Console__body-split']}
+            onMouseDown={handlerMouseDownSplitBar}
+          >
             <div className={style['Console__body-split--view']} />
           </div>
           <div className={consoleResponseClasses}>
