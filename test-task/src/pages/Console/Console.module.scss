@@ -263,7 +263,7 @@ $grey: #c4c4c4;
   &-code {
     margin: 10px 0  10px 10px;
     transition: 0.3s;
-    width: calc(50% - 15px);
+    width: calc(50% - 23.5px);;
   }
 
   &-code--wrong &-title {
@@ -282,7 +282,7 @@ $grey: #c4c4c4;
     cursor: col-resize;
     display: flex;
     height: 28px;
-    margin: 0 5px;
+    margin: 0 12px;
     user-select: none;
     width: 7px;
   }

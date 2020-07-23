@@ -119,18 +119,8 @@ const Console = ({
     }
   };
 
-  const handlerMouseDownSplitBar = () => {
+  const handlerTakeOnSplitBar = () => {
     setSplitBarCapture(true);
-    console.log('ddd');
-  };
-  const handlerMouseMoveSplitBar = (event) => {
-    if (!isSplitBarCapture) return;
-    console.log('ddd');
-    consoleAreaElement.current.style.width = `${event.clientX}px`;
-  };
-  const handlerMouseUpSplitBar = () => {
-    setSplitBarCapture(false);
-    console.log('false');
   };
 
   const handlerLogout = () => {
@@ -146,14 +136,35 @@ const Console = ({
   };
 
   useEffect(() => {
-    document.addEventListener('mousemove', handlerMouseMoveSplitBar);
-    document.addEventListener('mouseup', handlerMouseUpSplitBar);
+    const handlerMoveSplitBar = (event) => {
+      if (!isSplitBarCapture) return;
+
+      const deltaX = [];
+      if (event.type === 'touchmove') {
+        deltaX.push(event.changedTouches[0].clientX);
+      } else {
+        deltaX.push(event.clientX);
+      }
+      consoleAreaElement.current.style.width = `${deltaX[0]}px`;
+    };
+    const handlerTakeOffSplitBar = () => {
+      setSplitBarCapture(false);
+    };
+
+    document.addEventListener('mousemove', handlerMoveSplitBar);
+    document.addEventListener('touchmove', handlerMoveSplitBar);
+
+    document.addEventListener('mouseup', handlerTakeOffSplitBar);
+    document.addEventListener('touchend', handlerTakeOffSplitBar);
 
     return () => {
-      document.removeEventListener('mousemove', handlerMouseMoveSplitBar);
-      document.removeEventListener('mousemove', handlerMouseUpSplitBar);
+      document.removeEventListener('mousemove', handlerMoveSplitBar);
+      document.removeEventListener('touchmove', handlerMoveSplitBar);
+
+      document.removeEventListener('mouseup', handlerTakeOffSplitBar);
+      document.removeEventListener('touchend', handlerTakeOffSplitBar);
     };
-  }, [isSplitBarCapture, handlerMouseMoveSplitBar, handlerMouseUpSplitBar]);
+  }, [isSplitBarCapture, consoleAreaElement]);
 
   useEffect(() => {
     latestConsoleJSON.current = consoleJSON;
@@ -234,7 +245,8 @@ const Console = ({
           <div
             ref={splitBarElement}
             className={style['Console__body-split']}
-            onMouseDown={handlerMouseDownSplitBar}
+            onMouseDown={handlerTakeOnSplitBar}
+            onTouchStart={handlerTakeOnSplitBar}
           >
             <div className={style['Console__body-split--view']} />
           </div>
