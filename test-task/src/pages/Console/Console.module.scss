@@ -23,7 +23,14 @@ $grey: #c4c4c4;
     user-select: none;
   }
 
-  &-container {
+  &-rightcontainer {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+  }
+
+  &-leftcontainer {
     display: flex;
     margin: 0 10px;
     user-select: none;
@@ -333,6 +340,7 @@ $grey: #c4c4c4;
     border: 1px solid $grey;
     border-radius: 8px;
     flex: 1;
+    font-family: 'Fira Code', monospace;
     padding: 10px;
     resize: none;
     transition: 0.3s;

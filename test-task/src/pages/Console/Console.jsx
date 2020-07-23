@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '../../components/Button';
 import HistoryQuery from '../../components/HistoryQuery';
 import style from './Console.module.scss';
+import Logo from '../../components/Logo';
 
 const Console = ({
   buttonLoad,
@@ -174,8 +175,11 @@ const Console = ({
   return (
     <div className={style.Console}>
       <div className={style.Console__header}>
-        <div className={style['Console__header-title']}>API-консолька</div>
-        <div className={style['Console__header-container']}>
+        <div className={style['Console__header-rightcontainer']}>
+          <Logo />
+          <div className={style['Console__header-title']}>API-консолька</div>
+        </div>
+        <div className={style['Console__header-leftcontainer']}>
           <div
             className={`${style['Console__header-userdata']} ${style['Console__header-container-el']}`}
           >

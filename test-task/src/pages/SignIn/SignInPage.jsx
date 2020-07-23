@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Button from '../../components/Button';
 import style from './SignInPage.module.scss';
+import Logo from '../../components/Logo';
 
 const SignInPage = ({
   sign,
@@ -73,60 +74,63 @@ const SignInPage = ({
   };
 
   return (
-    <div className={style.Authorization}>
-      <div className={style.Authorization__title}>API-Консолька</div>
-      {errorElement()}
-      <form onSubmit={handlerSubmit} className={style.Authorization__form}>
-        <div className={style['Authorization__form-container']}>
-          <div className={style['Authorization__form-title']}>Логин</div>
-          <input
-            required
-            value={login}
-            className={style['Authorization__form-input']}
-            id="Login"
-            placeholder="Логин"
-            name="email"
-            autoComplete="off"
-            readOnly="on"
-            onFocus={(ev) => ev.target.removeAttribute('readonly')}
-            onChange={handlerOnTypeSetLogin}
-          />
-        </div>
-        <div className={style['Authorization__form-container']}>
-          <div className={style['Authorization__form-title']}>
-            Сублогин
-            <span className={style['Authorization__form-note']}>опционально</span>
+    <div className={style['Page-container']}>
+      <Logo />
+      <div className={style.Authorization}>
+        <div className={style.Authorization__title}>API-Консолька</div>
+        {errorElement()}
+        <form onSubmit={handlerSubmit} className={style.Authorization__form}>
+          <div className={style['Authorization__form-container']}>
+            <div className={style['Authorization__form-title']}>Логин</div>
+            <input
+              required
+              value={login}
+              className={style['Authorization__form-input']}
+              id="Login"
+              placeholder="Логин"
+              name="email"
+              autoComplete="off"
+              readOnly="on"
+              onFocus={(ev) => ev.target.removeAttribute('readonly')}
+              onChange={handlerOnTypeSetLogin}
+            />
           </div>
-          <input
-            value={subLogin}
-            className={style['Authorization__form-input']}
-            id="SubLogin"
-            placeholder="Сублогин (опционально)"
-            autoComplete="off"
-            name="SubLogin"
-            readOnly="on"
-            onFocus={(ev) => ev.target.removeAttribute('readonly')}
-            onChange={handlerOnTypeSetSubLogin}
-          />
-        </div>
-        <div className={style['Authorization__form-container']}>
-          <div className={style['Authorization__form-title']}>Пароль</div>
-          <input
-            required
-            value={password}
-            className={style['Authorization__form-input']}
-            name="password"
-            placeholder="Пароль"
-            type="password"
-            id="password"
-            autoComplete="off"
-            readOnly="on"
-            onFocus={(ev) => ev.target.removeAttribute('readonly')}
-            onChange={handlerOnTypeSetPassword}
-          />
-        </div>
-        <Button text="Войти" />
-      </form>
+          <div className={style['Authorization__form-container']}>
+            <div className={style['Authorization__form-title']}>
+              Сублогин
+              <span className={style['Authorization__form-note']}>опционально</span>
+            </div>
+            <input
+              value={subLogin}
+              className={style['Authorization__form-input']}
+              id="SubLogin"
+              placeholder="Сублогин (опционально)"
+              autoComplete="off"
+              name="SubLogin"
+              readOnly="on"
+              onFocus={(ev) => ev.target.removeAttribute('readonly')}
+              onChange={handlerOnTypeSetSubLogin}
+            />
+          </div>
+          <div className={style['Authorization__form-container']}>
+            <div className={style['Authorization__form-title']}>Пароль</div>
+            <input
+              required
+              value={password}
+              className={style['Authorization__form-input']}
+              name="password"
+              placeholder="Пароль"
+              type="password"
+              id="password"
+              autoComplete="off"
+              readOnly="on"
+              onFocus={(ev) => ev.target.removeAttribute('readonly')}
+              onChange={handlerOnTypeSetPassword}
+            />
+          </div>
+          <Button text="Войти" />
+        </form>
+      </div>
     </div>
   );
 };
